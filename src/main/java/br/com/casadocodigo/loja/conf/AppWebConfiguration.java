@@ -9,14 +9,16 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import br.com.casadocodigo.loja.controller.HomeController;
+import br.com.casadocodigo.loja.dao.ProductDAO;
 
 /**
  * Classe de configuracao.
- * @author 	Julivan Meridius
- * @since	03/07/2017
+ * 
+ * @author Julivan Meridius
+ * @since 03/07/2017
  */
 @EnableWebMvc
-@ComponentScan(basePackageClasses=HomeController.class)
+@ComponentScan(basePackageClasses = {HomeController.class, ProductDAO.class})
 public class AppWebConfiguration {
 
 	@Bean
