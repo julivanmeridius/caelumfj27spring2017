@@ -16,7 +16,7 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public String index(){
-		System.out.println("ola");
+		System.out.println("Invocando a Página Inicial da Aplicação...");
 		return "index";
 	}
 }
