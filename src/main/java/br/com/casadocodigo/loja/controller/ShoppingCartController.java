@@ -50,7 +50,7 @@ public class ShoppingCartController {
 		return item;
 	}
 	
-	@RequestMapping(value="/checkuot", method = RequestMethod.POST)
+	@RequestMapping(value="/checkout", method = RequestMethod.POST)
 	public String checkout() {
 		BigDecimal total = shoppingCart.getTotal();
 		String uriToPay = "http://book-payment.herokuapp.com/payment";
