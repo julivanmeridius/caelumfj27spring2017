@@ -4,6 +4,8 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +44,7 @@ public class ProductsController {
 		return andView;
 	}
 
+	@CacheEvict(value="lastProducts")
 	@Transactional // -- pertence a especificacao JavaEE - JTA
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView save(MultipartFile summary, @Valid Product product, BindingResult bindingResult,
@@ -60,6 +63,7 @@ public class ProductsController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
+	@Cacheable(value="lastProducts")
 	public ModelAndView list() {
 		ModelAndView mav = new ModelAndView("products/list");
 		mav.addObject("products", productDAO.list());

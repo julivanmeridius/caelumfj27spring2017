@@ -15,6 +15,10 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ShoppingCart implements Serializable {
 
+	/**
+	 * UID
+	 */
+	private static final long serialVersionUID = 7068060240826705327L;
 	private Map<ShoppingItem, Integer> items = new LinkedHashMap<ShoppingItem, Integer>();
 
 	public void add(ShoppingItem item) {
@@ -55,5 +59,4 @@ public class ShoppingCart implements Serializable {
 	public boolean isEmpty() {
 		return items.isEmpty();
 	}
-
 }

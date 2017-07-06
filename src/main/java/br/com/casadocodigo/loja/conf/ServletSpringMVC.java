@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 /**
  * Classe de implentacao dos comportamentos.
+ * 
  * @author 	Julivan Meridius
  * @since	03/07/2017
  */
@@ -19,8 +20,7 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
 	 */
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Class[]{SecurityConfiguration.class, AppWebConfiguration.class, JPAConfiguration.class};
 	}
 
 	/* (non-Javadoc)
@@ -28,7 +28,7 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
 	 */
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class[]{AppWebConfiguration.class, JPAConfiguration.class};
+		return new Class[]{};
 	}
 
 	/* (non-Javadoc)
