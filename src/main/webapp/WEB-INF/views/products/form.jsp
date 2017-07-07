@@ -3,6 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -33,6 +34,20 @@
 		}
 	</style>
 	<body>
+		<sec:authorize access="isAuthenticated()">
+			<sec:authentication property="principal" var="user"/>
+			<div>
+				Olá ${user.name}
+			</div>
+		</sec:authorize>
+		
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+			<c:url value="/products/form" var="formLink" />
+			<a href="${formLink}">
+				Cadastramento de Novos Produtos
+			</a>
+		</sec:authorize>
+		
 		<c:url value="/products" var="url"/>
 		<form:form action="${spring:mvcUrl('PC#save').build()}" method="post" commandName="product" enctype="multipart/form-data">
 			<div>

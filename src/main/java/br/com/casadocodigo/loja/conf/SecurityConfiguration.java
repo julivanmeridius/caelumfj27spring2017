@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+//---import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import br.com.casadocodigo.loja.dao.UserDAO;
 
@@ -16,7 +19,8 @@ import br.com.casadocodigo.loja.dao.UserDAO;
  * @author 	Julivan Meridius
  * @since	06/07/2017
  */
-@EnableWebSecurity
+//-- @EnableWebSecurity --- anotacao para habilitar o controle de seguranca sem link com o SpringMVC
+@EnableWebMvcSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -30,12 +34,32 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
 		.antMatchers("/products**/**").permitAll()
 		.anyRequest().authenticated()
-		.and().formLogin();
+		
+		.and()
+		.formLogin().loginPage("/login")
+		.defaultSuccessUrl("/products")
+		.permitAll()
+		
+		.and()
+		.logout()
+		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+		.logoutSuccessUrl("/login")
+		.permitAll()
+		
+		.and()
+		.exceptionHandling()
+		.accessDeniedPage("/WEB-INF/views/errors/403.jsp");
 	}
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(users)
 		.passwordEncoder(new BCryptPasswordEncoder());
+	}
+	
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		//-- fazendo com que o Spring nao se importe em bloquear nenhum dos recursos da pasta resources
+		web.ignoring().antMatchers("/resources/**");
 	}
 }
